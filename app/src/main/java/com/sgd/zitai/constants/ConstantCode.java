@@ -5,4 +5,5 @@ package com.sgd.zitai.constants;
  */
 public class ConstantCode {
     public static String baseurl="http://ip.taobao.com";
+
 }

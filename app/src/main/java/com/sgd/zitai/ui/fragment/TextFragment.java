@@ -138,7 +138,6 @@ public class TextFragment extends Fragment implements TextListAdapter.OnItemClic
             mDatas.add(new TextEntity());
         }
     }
-
     /**
      * 获取测试数据
      */
