@@ -15,15 +15,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+import com.orhanobut.logger.Logger;
 import com.sgd.zitai.R;
 import com.sgd.zitai.adapter.TextListAdapter;
 import com.sgd.zitai.bean.TextEntity;
+import com.sgd.zitai.retrofit.MyRetrofit;
+import com.sgd.zitai.retrofit.ThreadTransformer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class TextFragment extends Fragment implements TextListAdapter.OnItemClickListener {
 
@@ -151,6 +158,28 @@ public class TextFragment extends Fragment implements TextListAdapter.OnItemClic
         mAdapter.notifyDataSetChanged();
         mSwipeRefresh.setRefreshing(false);
         mAdapter.notifyItemRemoved(mAdapter.getItemCount());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        fetchData();
+    }
+
+    private void fetchData(){
+        MyRetrofit.getInstances().getArticleService().getArticle(1,1+"")
+                .subscribeOn(Schedulers.io())
+                .compose(new ThreadTransformer<>())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(results -> handleData(results),this::handleError);
+    }
+
+    private void handleError(Throwable throwable) {
+        Log.d("info","getResulterror");
+    }
+
+    private void handleData(TextEntity results) {
+        Logger.json(new Gson().toJson(results));
     }
 
     @Override

@@ -94,8 +94,8 @@ public class TextListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 });
 
             }
-            textHolder.itemContent.setText(data.content);
-            textHolder.itemUserName.setText(data.userName);
+           /* textHolder.itemContent.setText(data.content);
+            textHolder.itemUserName.setText(data.userName);*/
         }
     }
 
